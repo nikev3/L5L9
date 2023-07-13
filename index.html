@@ -34,46 +34,27 @@
     const video = document.querySelector("#my-camera");
     const container = document.querySelector('.video-container');
 
-    /* Exercise 1: Getting access to the camera 
-    1. Create an object called myDevices by running the mediaDevices property on navigator.
-    2. Make an object containing constraints, audio: false, video: true
-    3. Call getUserMedia() on myDevices and pass it your constraints. */
-   
+    /* Exercise 1: Getting access to the camera */
+    const myDevices = navigator.mediaDevices;
+    const constraints = { audio: false, video: true };
 
+    myDevices.getUserMedia(constraints)
+      .then(showCam)
+      .catch(handleError);
 
+    /* Exercise 2: Showing the camera stream */
+    function showCam(stream) {
+      video.srcObject = stream;
+    }
 
+    /* Exercise 3: Protecting against errors */
+    function handleError(error) {
+      console.error(error);
+      video.style.left = "-9999px";
+      container.innerHTML = "<h2>Oops, your camera might not be working!</h2>";
+    }
 
-
-    /* Exercise 2: Showing the camera stream
-    1. Create a function called showCam with one parameter: stream
-    2. Set the srcObject of the video to stream 
-    3. Call the function by appending .then() to getUserMedia(constraints) */
-
-
-
-
-
-
-
-
-    /* Exercise 3: Protecting against errors 
-    1. Inside showCam(), add a try...catch block 
-    2. Move the existing line of code inside the try block
-    3. Inside of catch, log any error with console.error(error),
-       Set the video left style to -9999px and set the innerHTML of the container to '<h2>Oops, your camera might not be working!</h2>' 
-    */
-
-
-
-
-    
-
-
-    /* Extras: Fun with filters 
-     Take a look at the below code. It's simply DOM manipulation.
-     You could have written this code!
-     Perhaps you could use something similar in a personal project.
-     */
+    /* Extras: Fun with filters */
     const btns = document.querySelectorAll('button');
 
     btns.forEach(function (button) {
@@ -82,7 +63,6 @@
         addEffect(id);
       });
     });
-
 
     function addEffect(btnId) {
       if (btnId == 'mirror') {
